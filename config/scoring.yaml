@@ -1,0 +1,53 @@
+# Gradeline v0 score: transparent points, summed and capped at 100.
+# Heuristic weights, not calibrated. Tune against claims data when available.
+# Each rule: feature, then ordered tiers [threshold, points]; first tier that matches wins.
+# op: "lt" (feature < threshold) or "ge" (feature >= threshold) or "eq".
+version: v0.1-2026-10-13
+
+rules:
+  # hand_ratio = height above the creek it drains to / that creek's estimated 100-yr flood
+  # depth (FEMA-AE-calibrated power law of drainage area; see calibrate.py). <1 = within reach.
+  riverine:
+    feature: hand_ratio
+    op: lt
+    tiers: [[0.5, 35], [1.0, 28], [1.5, 15], [2.0, 6]]
+    driver: "{riverine_hand_m:.1f} m above a {riverine_creek_area_km2:.0f} km2 creek whose 100-yr flood is est. ~{flood_depth_100yr_est_m:.0f} m deep"
+    extra: [riverine_hand_m, riverine_creek_area_km2, flood_depth_100yr_est_m]
+
+  fema:
+    feature: fema_zone_class
+    op: eq
+    tiers: [["in the FEMA 100-year floodplain", 15], ["in the FEMA 500-year (shaded X) zone", 8]]
+    driver: "{v}"
+
+  ponding:
+    feature: depression_depth_m
+    op: ge
+    tiers: [[0.5, 20], [0.25, 14], [0.1, 7]]
+    driver: "lot sits in a local low spot ({v:.2f} m deep)"
+
+  concentrated_flow:
+    feature: upstream_area_km2
+    op: ge
+    tiers: [[0.1, 10], [0.02, 5]]
+    driver: "{v:.2f} km2 of land drains past the building"
+
+  soils:
+    feature: hsg
+    op: eq
+    tiers: [["D", 5], ["C/D", 5], ["C", 3]]
+    driver: "slow-draining soils (group {v})"
+
+  local_growth:
+    feature: imperv_250m_change
+    op: ge
+    tiers: [[20, 8], [10, 4]]
+    driver: "paved/roofed area within 250 m +{v:.0f} pts since 2001"
+
+  upstream_growth:
+    feature: upstream_imperv_change
+    op: ge
+    tiers: [[15, 7], [8, 3]]
+    driver: "upstream impervious cover +{v:.0f} pts since 2001"
+
+outside_fema_but_risky_min_score: 40

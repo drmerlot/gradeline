@@ -211,3 +211,30 @@ FETCHERS = {
     "fema": fetch_fema,
     "buildings": fetch_buildings,
 }
+
+
+AUSTIN_FOOTPRINTS_2013 = "https://data.austintexas.gov/resource/3qcc-8uhz.geojson"
+
+
+def fetch_austin_footprints_2013(key: str, force: bool = False) -> Path:
+    """City of Austin 2013 planimetric footprints (2012/13 imagery) over the 1 m pilot box.
+    Used to find homes that existed in 2013 but are gone now (= flood buyouts, demolished)."""
+    out = data_dir("raw", key) / "austin_footprints_2013.parquet"
+    if out.exists() and not force:
+        return out
+    w, s, e, n = load_watershed(key)["pilot_1m_bbox"]
+    feats, off = [], 0
+    while True:
+        r = _get_retry(AUSTIN_FOOTPRINTS_2013, params={
+            "$where": f"within_box(the_geom, {n}, {w}, {s}, {e})",
+            "$limit": 20000, "$offset": off, "$order": "objectid"})
+        batch = r.json()["features"]
+        feats += batch
+        if len(batch) < 20000:
+            break
+        off += len(batch)
+    gpd.GeoDataFrame.from_features(feats, crs=4326).to_parquet(out)
+    return out
+
+
+FETCHERS["austin2013"] = fetch_austin_footprints_2013

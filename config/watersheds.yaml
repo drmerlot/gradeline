@@ -25,3 +25,13 @@ onion_creek:
   terrain:
     breach_max_dist_m: 100      # max breach length; road culverts are usually < 100 m
     stream_threshold_km2: 1.0   # "nearest drainage" for HAND / distance to stream
+    hand_scales_km2: [10, 100]  # extra HAND networks for backwater from bigger creeks
+  validation_gauges:      # USGS NWIS drainage areas; checks DEM flow routing
+    "08158700": {name: Onion Ck nr Driftwood, lat: 30.08299, lon: -98.00779, da_mi2: 124}
+    "08158800": {name: Onion Ck at Buda, lat: 30.08605, lon: -97.84806, da_mi2: 166}
+    "08158827": {name: Onion Ck at Twin Creeks Rd, lat: 30.12632, lon: -97.82112, da_mi2: 181}
+    "08158860": {name: Slaughter Ck at FM 2304, lat: 30.16216, lon: -97.83223, da_mi2: 23.1}
+    "08158970": {name: Williamson Ck at Jimmy Clay Rd, lat: 30.18938, lon: -97.73250, da_mi2: 27.6}
+    "08159000": {name: Onion Ck at US Hwy 183, lat: 30.17799, lon: -97.68861, da_mi2: 321}
+    "08159100": {name: Onion Ck bl Del Valle, lat: 30.18966, lon: -97.62028, da_mi2: 339}
+  min_footprint_m2: 40    # drop sheds / carports
