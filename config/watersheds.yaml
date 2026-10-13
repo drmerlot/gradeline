@@ -1,0 +1,15 @@
+# One entry per watershed. The pipeline reads only this file to know what to build.
+onion_creek:
+  name: Onion Creek (Austin, TX)
+  state: TX
+  crs: EPSG:26914         # NAD83 / UTM 14N (meters)
+  huc12:
+    - "120902050401"  # Headwaters Onion Creek
+    - "120902050402"  # South Onion Creek
+    - "120902050403"  # Gatlin Creek-Onion Creek
+    - "120902050404"  # Yorks Creek-Onion Creek
+    - "120902050405"  # Mustang Branch-Onion Creek
+    - "120902050406"  # Bear Creek
+    - "120902050407"  # Slaughter Creek-Onion Creek
+    - "120902050408"  # Williamson Creek-Onion Creek (Dove Springs)
+  buffer_m: 500          # pad AOI so terrain routing isn't clipped at the divide
