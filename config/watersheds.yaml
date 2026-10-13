@@ -1,6 +1,8 @@
 # One entry per watershed. The pipeline reads only this file to know what to build.
 onion_creek:
   name: Onion Creek (Austin, TX)
+  # Processing tile = full HUC-10 1209020504. Lower Onion Ck (US-183 gauge, buyout areas) is in 0409,
+  # so 0409 must be included. True Onion-only drainage gets delineated from the DEM later.
   state: TX
   crs: EPSG:26914         # NAD83 / UTM 14N (meters)
   huc12:
@@ -12,4 +14,5 @@ onion_creek:
     - "120902050406"  # Bear Creek
     - "120902050407"  # Slaughter Creek-Onion Creek
     - "120902050408"  # Williamson Creek-Onion Creek (Dove Springs)
+    - "120902050409"  # Carson Creek-Colorado River (lower Onion Ck to its mouth + Carson Ck + Colorado mainstem)
   buffer_m: 500          # pad AOI so terrain routing isn't clipped at the divide

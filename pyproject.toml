@@ -11,6 +11,9 @@ dependencies = [
   "requests",
   "pyyaml",
   "folium",
+  "rasterio>=1.4,<1.5",
+  "matplotlib>=3.11.2",
+  "contextily>=1.7.1",
 ]
 
 [project.scripts]
