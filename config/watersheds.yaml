@@ -16,3 +16,12 @@ onion_creek:
     - "120902050408"  # Williamson Creek-Onion Creek (Dove Springs)
     - "120902050409"  # Carson Creek-Colorado River (lower Onion Ck to its mouth + Carson Ck + Colorado mainstem)
   buffer_m: 500          # pad AOI so terrain routing isn't clipped at the divide
+  # 1 m lidar pilot: Dove Springs + lower Onion Ck buyout areas (~65 km2).
+  # Full 0408+0409 (~230 km2) was ~1.5 GB of tile reads; too big for a pilot.
+  pilot_1m_bbox: [-97.76, 30.15, -97.66, 30.21]   # lon/lat W, S, E, N
+  nlcd_years:
+    impervious: [2001, 2011, 2021]
+    cover: [2021]
+  terrain:
+    breach_max_dist_m: 100      # max breach length; road culverts are usually < 100 m
+    stream_threshold_km2: 1.0   # "nearest drainage" for HAND / distance to stream
