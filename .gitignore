@@ -8,3 +8,4 @@ __pycache__/
 logs/
 cache/
 config/api_keys.yaml
+CLAUDE.md

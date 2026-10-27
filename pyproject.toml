@@ -19,6 +19,7 @@ dependencies = [
   "overturemaps>=1.0.2",
   "exactextract>=0.3.0",
   "pysheds>=0.5",
+  "numba",
   "fastapi>=0.143.0",
   "uvicorn[standard]>=0.54.0",
 ]
